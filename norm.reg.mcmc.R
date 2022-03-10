@@ -39,14 +39,10 @@ norm.reg.mcmc <- function(y,X,beta.mean.0,beta.variance.0,n.mcmc,sigma.tune,mu.l
   for(k in 1:n.mcmc){
     
     # Sample log(sigma) using random walk Metropolis-Hasting 
-    # then transforming samples to sigmasq
+    # then transform samples to sigmasq
     
     logsigma.proposed = rnorm(1,logsigma,sigma.tune)
     sigma.proposed = exp(logsigma.proposed)
-    #mh1 =  sigma.proposed^(-n)*exp((-1/2)*t(y-X%*%beta)%*%(y-X%*%beta)/sigma.proposed^2)*exp(-(1/2)*(1/sigma.logsigma^2)*(logsigma.proposed-mu.logsigma)^2)
-    #mh2 = sigma^(-n)*exp((-1/2)*t(y-X%*%beta)%*%(y-X%*%beta)/sigma^2)*exp(-(1/2)*(1/sigma.logsigma^2)*(logsigma-mu.logsigma)^2)
-    #alpha = min(1,mh1/mh2)
-    #cat(alpha)
     
     mh.1 = sum(dnorm(y,X%*%beta,sigma.proposed,log=TRUE))+dnorm(logsigma.proposed,mu.logsigma,sigma.logsigma,log=TRUE)
     mh.2 = sum(dnorm(y,X%*%beta,sigma,log=TRUE))+dnorm(logsigma,mu.logsigma,sigma.logsigma,log=TRUE)
@@ -104,10 +100,10 @@ norm.reg.mcmc <- function(y,X,beta.mean.0,beta.variance.0,n.mcmc,sigma.tune,mu.l
   pD=Dbar-Dhat
   DIC=Dhat+2*pD
   
-  #cat("Posterior Mean for Beta:","\n")
-  #print(postbetamn)
-  #cat("Posterior Mean for s2:","\n")
-  #print(posts2mn)
+  cat("Posterior Mean for Beta:","\n")
+  print(postbetamn)
+  cat("Posterior Mean for s2:","\n")
+  print(posts2mn)
   cat("Dhat:",Dhat,"Dbar:",Dbar,"pD:",pD,"DIC:",DIC,"\n")
   
   #
